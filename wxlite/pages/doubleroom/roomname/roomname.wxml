@@ -1,0 +1,13 @@
+<!--pages/doubleroom/roomname/roomname.wxml-->
+<view class='container-box'>
+  <view class="input-box">
+    <input value="{{roomName}}" maxlength="20" bindinput='bindRoomName' placeholder="请输入房间名称" placeholder-style="color:#ffffff;opacity: 0.55;" />
+  </view>
+  <view class="input-box">
+    <input value="{{roomID}}" maxlength="20" bindinput='bindRoomID' placeholder="请输入房间ID" placeholder-style="color:#ffffff;opacity: 0.55;" />
+  </view>
+</view>
+<view class='bottom-btn'> 
+  <button type="primary" bindtap="create" hover-class="none">加入该房间</button>
+</view> 
+

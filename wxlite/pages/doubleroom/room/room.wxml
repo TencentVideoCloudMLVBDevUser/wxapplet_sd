@@ -1,0 +1,66 @@
+<view class='container-box'>
+    <view style="width:93vw;margin-left:3.5vw;padding-top:3.5vw; display:{{sketchpadSetFullScreen? 'none': 'block'}}">
+        <rtc-room id="rtcroom" roomID="{{roomID}}" roomInfo="{{roomname}}" template="1v1" beauty="{{beauty}}" muted="{{muted}}" debug="{{debug}}" bindonRoomEvent="onRoomEvent">
+        </rtc-room>
+    </view>
+    <view class="operate" style="display:{{sketchpadSetFullScreen? 'none': 'block'}}">
+        <view class='img-box'>
+            <image src='../../Resources/camera{{frontCamera?"":"-gray"}}.png' bindtap="changeCamera"></image>
+            <text>翻转</text>
+        </view>
+        <view class='img-box'>
+            <image src='../../Resources/{{beauty? "beauty" : "beauty-dis"}}.png' bindtap="setBeauty"></image>
+            <text>美颜</text>
+        </view>
+        <view class='img-box'>
+            <image src='../../Resources/{{muted ? "mic-dis" : "mic"}}.png' bindtap="changeMute"></image>
+            <text>声音</text>
+        </view>
+        <view class='img-box'>
+            <image src='../../Resources/{{debug? "log" : "log2"}}.png' bindtap="showLog"></image>
+            <text>日志</text>
+        </view>
+    </view>
+
+    <view class="{{sketchpadSetFullScreen ? 'comment-whiteboard-box-fullscreen' : 'commnet-and-whiteboard-box' }}">
+        <!-- 评论和白板tab 按键  -->
+        <view class='tab-box' style="display:{{sketchpadSetFullScreen ? 'none': 'block'}};">
+            <text class="tab tab-left {{ showWhiteboard ? 'tab-normal':'tab-selected' }}" bindtap="tabShowCommet">IM</text>
+            <text style="color: gray; width: 1px;">|</text>
+            <text class="tab tab-right {{ !showWhiteboard ? 'tab-normal':'tab-selected' }}" bindtap="tabShowWhiteboard">白板</text>
+        </view>
+
+        <!-- 评论视图  -->
+        <view class="comment-whiteboard-box" style="display:{{showWhiteboard ? 'none': 'block'}}">
+            <scroll-view scroll-y scroll-into-view="{{toview}}" class='comment'>
+                <view>
+                    <view class='comment-detail' wx:for="{{comment}}">
+                        <view>{{item.name}} {{item.time}}</view>
+                        <view>{{item.content}}</view>
+                    </view>
+                </view>
+                <view id='scroll-bottom' wx:if="{{toview}}"></view>
+            </scroll-view>
+            <view class='comment-input'>
+                <input value="{{inputMsg}}" maxlength="50" bindinput='bindInputMsg' placeholder="输入文字内容" confirm-type="send" bindconfirm="sendComment" cursor-spacing="5" />
+                <!-- <button bindtap="sendComment">发送</button>  -->
+            </view>
+        </view>
+
+        <!-- 白板视图 -->
+        <view class="{{sketchpadSetFullScreen ? 'comment-whiteboard-box-fullscreen' : 'comment-whiteboard-box' }}" style="display:{{showWhiteboard ? 'block': 'none'}}; background-color: white;">
+            <view class="sketchpad-box">
+                <sketchpad class="sketchpad" addData="{{sketchpadData}}" canDraw="{{canDraw}}" horizontal="{{!sketchpadSetFullScreen}}" height="{{ sketchpad.height }}" width="{{ sketchpad.width }}">
+                    <cover-view class="{{sketchpadSetFullScreen? 'fullscreen-box-fullscreen' : 'fullscreen-box-normal'}}">
+                        <cover-view class="{{sketchpadSetFullScreen ? 'fullscreen-control-fullscreen':'fullscreen-control'}}">
+                            <cover-image style="z-index: 999; width:30px; height:30px; position: relative; margin:5% auto auto auto" src="{{!sketchpadSetFullScreen ? '/pages/Resources/fullscreen.png': '/pages/Resources/smallscreen.png'}}" bindtap="tabToggleScetchpadFullScreen">
+                            </cover-image>
+                        </cover-view>
+                    </cover-view>
+                </sketchpad>
+            </view>
+        </view>
+        <!-- /commnet-and-whiteboard-box -->
+    </view>
+
+</view>
